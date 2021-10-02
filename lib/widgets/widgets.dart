@@ -9,3 +9,18 @@ InputDecoration textFieldInputDecoration(String hintText) {
       enabledBorder:
           UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)));
 }
+
+Widget addbutton() {
+  return Align(
+    child: FloatingActionButton(
+      mini: true,
+      onPressed: () {
+        // Add your onPressed code here!
+      },
+      splashColor: Colors.white,
+      child: const Icon(Icons.add),
+      backgroundColor: Colors.white54,
+    ),
+    alignment: Alignment.bottomCenter,
+  );
+}

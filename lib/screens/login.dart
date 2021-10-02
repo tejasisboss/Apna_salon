@@ -1,4 +1,5 @@
-import 'package:apna_salon/screens/home.dart';
+import 'package:apna_salon/screens/nav_screen.dart';
+import 'package:apna_salon/screens/nav_screens/home.dart';
 import 'package:apna_salon/screens/register.dart';
 import 'package:apna_salon/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +41,10 @@ class Login extends StatelessWidget {
                     SizedBox(height: (size.height * 0.04)),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => Home()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NavScreen()));
                       },
                       child: Container(
                         alignment: Alignment.center,
