@@ -1,4 +1,3 @@
-import 'package:apna_salon/screens/nav_screens/home.dart';
 import 'package:apna_salon/screens/login.dart';
 import 'package:apna_salon/widgets/widgets.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,4 @@
 import 'package:apna_salon/screens/nav_screen.dart';
-import 'package:apna_salon/screens/nav_screens/home.dart';
 import 'package:apna_salon/screens/register.dart';
 import 'package:apna_salon/widgets/widgets.dart';
 import 'package:flutter/material.dart';

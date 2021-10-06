@@ -1,3 +1,5 @@
+import 'package:apna_salon/screens/nav_screens/bookings.dart';
+import 'package:apna_salon/screens/nav_screens/payments.dart';
 import 'package:flutter/material.dart';
 
 import 'nav_screens/home.dart';
@@ -14,18 +16,8 @@ class _NavScreenState extends State<NavScreen> {
 
   final tabs = [
     Home(),
-    Center(
-      child: Text(
-        'Booking',
-        style: TextStyle(fontSize: 30),
-      ),
-    ),
-    Center(
-      child: Text(
-        'Payment',
-        style: TextStyle(fontSize: 30),
-      ),
-    ),
+    BookingScreen(),
+    PaymentsScreen(),
     Center(
       child: Text(
         'Accounts',
