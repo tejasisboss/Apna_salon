@@ -1,3 +1,4 @@
+import 'package:apna_salon/screens/nav_screens/accounts.dart';
 import 'package:apna_salon/screens/nav_screens/bookings.dart';
 import 'package:apna_salon/screens/nav_screens/payments.dart';
 import 'package:flutter/material.dart';
@@ -14,37 +15,11 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   int _currentIndex = 0;
 
-  final tabs = [
-    Home(),
-    BookingScreen(),
-    PaymentsScreen(),
-    Center(
-      child: Text(
-        'Accounts',
-        style: TextStyle(fontSize: 30),
-      ),
-    )
-  ];
+  final tabs = [Home(), BookingScreen(), PaymentsScreen(), Accounts()];
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Apna Salon'),
-        actions: [
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: (size.width * 0.03),
-              vertical: (size.height * 0.01),
-            ),
-            child: Text(
-              '5',
-              style: TextStyle(fontSize: 30),
-            ),
-          ),
-        ],
-      ),
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

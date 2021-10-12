@@ -1,28 +1,16 @@
-import 'package:apna_salon/widgets/inside_list.dart';
 import 'package:apna_salon/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class ServicesScreen extends StatefulWidget {
-  const ServicesScreen({Key key}) : super(key: key);
+class InsideList extends StatefulWidget {
+  InsideList({Key key}) : super(key: key);
 
   @override
-  _ServicesScreenState createState() => _ServicesScreenState();
+  _InsideListState createState() => _InsideListState();
 }
 
-class _ServicesScreenState extends State<ServicesScreen> {
+class _InsideListState extends State<InsideList> {
   @override
   Widget build(BuildContext context) {
-    void _showservicelist() {
-      showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return Container(
-              //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-              child: InsideList(),
-            );
-          });
-    }
-
     return Scaffold(
       body: ListView.separated(
         separatorBuilder: (context, index) => Divider(
@@ -30,10 +18,11 @@ class _ServicesScreenState extends State<ServicesScreen> {
           indent: 10.0,
           endIndent: 10.0,
         ),
-        itemCount: 4,
+        itemCount: 5,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('Section #$index'),
+            title: Text('Service #$index'),
+            subtitle: Text('Cost'),
             leading: Icon(Icons.person),
             trailing: IconButton(
               icon: Icon(Icons.delete),
@@ -41,9 +30,6 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 //To Delete
               },
             ),
-            onTap: () {
-              _showservicelist();
-            },
           );
         },
       ),

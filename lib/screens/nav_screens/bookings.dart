@@ -21,6 +21,21 @@ class _BookingScreenState extends State<BookingScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Apna Salon'),
+        actions: [
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: (size.width * 0.03),
+              vertical: (size.height * 0.01),
+            ),
+            child: Text(
+              '5',
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           SizedBox(
