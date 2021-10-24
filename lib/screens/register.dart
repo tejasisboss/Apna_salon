@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'package:apna_salon/models/address.dart';
+import 'package:apna_salon/screens/after_registration.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:apna_salon/screens/login.dart';
 import 'package:apna_salon/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'nav_screen.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -10,7 +13,47 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController salonNameController = new TextEditingController();
+  TextEditingController ownerNameController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController phoneController = new TextEditingController();
+  TextEditingController cityController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  bool _isLoading = false;
   String dropdownValue;
+  Address address;
+
+  signUp() async {
+    print('i am in register');
+    dynamic jsonData;
+    var url = Uri.parse('https://apna-salon-api.herokuapp.com/api/register');
+    var response = await http.post(url, body: {
+      "name": salonNameController.text,
+      "ownername": ownerNameController.text,
+      "email": emailController.text,
+      "phone": phoneController.text,
+      "address": address.citygetter(),
+      "password": passwordController.text,
+      "gender": dropdownValue,
+    });
+    if (response.statusCode == 200) {
+      jsonData = json.decode(json.encode(response.body));
+      setState(() {
+        _isLoading = false;
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => AfterRegistration()),
+            (Route<dynamic> route) => false);
+      });
+    } else {
+      print(response.body);
+      setState(() {
+        _isLoading = false;
+      });
+      dialogBox(context, "An Error Occurred", "Email already exists");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,22 +83,27 @@ class _RegisterState extends State<Register> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: salonNameController,
                       decoration: textFieldInputDecoration('Salon Name'),
                     ),
                     SizedBox(height: (size.height * 0.02)),
                     TextFormField(
+                      controller: ownerNameController,
                       decoration: textFieldInputDecoration('Owner Name'),
                     ),
                     SizedBox(height: (size.height * 0.02)),
                     TextFormField(
+                      controller: emailController,
                       decoration: textFieldInputDecoration('Email ID'),
                     ),
                     SizedBox(height: (size.height * 0.02)),
                     TextFormField(
+                      controller: phoneController,
                       decoration: textFieldInputDecoration('Mobile No'),
                     ),
                     SizedBox(height: (size.height * 0.02)),
                     TextFormField(
+                      controller: cityController,
                       decoration: textFieldInputDecoration('City'),
                     ),
                     SizedBox(height: (size.height * 0.02)),
@@ -89,15 +137,17 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: (size.height * 0.02)),
                     TextFormField(
                       obscureText: true,
+                      controller: passwordController,
                       decoration: textFieldInputDecoration('Password'),
                     ),
                     SizedBox(height: (size.height * 0.04)),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NavScreen()));
+                        setState(() {
+                          _isLoading = true;
+                          address = new Address(city: cityController.text);
+                        });
+                        signUp();
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -158,7 +208,9 @@ class _RegisterState extends State<Register> {
               ),
               SizedBox(height: (size.height * 0.02)),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showContactUs(context);
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 2, horizontal: 3),
                   decoration: BoxDecoration(

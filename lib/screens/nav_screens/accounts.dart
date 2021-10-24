@@ -1,7 +1,17 @@
+import 'package:apna_salon/main.dart';
+import 'package:apna_salon/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Accounts extends StatelessWidget {
+class Accounts extends StatefulWidget {
   const Accounts({Key key}) : super(key: key);
+
+  @override
+  State<Accounts> createState() => _AccountsState();
+}
+
+class _AccountsState extends State<Accounts> {
+  SharedPreferences sharedPreferences;
 
   @override
   Widget build(BuildContext context) {
@@ -172,20 +182,29 @@ class Accounts extends StatelessWidget {
               SizedBox(
                 height: size.height * 0.09,
               ),
-              Container(
-                padding: EdgeInsets.all(20.0),
-                alignment: AlignmentDirectional.topCenter,
-                height: 70.0,
-                width: 150.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.red[500],
-                ),
-                child: Text(
-                  'Log Out',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
+              GestureDetector(
+                onTap: () async {
+                  storage.delete(key: "token");
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => Login()),
+                      (Route<dynamic> route) => false);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20.0),
+                  alignment: AlignmentDirectional.topCenter,
+                  height: 70.0,
+                  width: 150.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red[500],
+                  ),
+                  child: Text(
+                    'Log Out',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
