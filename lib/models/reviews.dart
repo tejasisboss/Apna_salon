@@ -1,14 +1,27 @@
 class Reviews {
-  String name, comment;
-  int star;
+  String id, customid, salonID, createdAt, updatedAt, comment;
+  int star, v;
 
-  Reviews({this.name, this.star, this.comment});
+  Reviews(
+      {this.id,
+      this.customid,
+      this.salonID,
+      this.createdAt,
+      this.updatedAt,
+      this.v,
+      this.star,
+      this.comment});
 
   factory Reviews.fromJson(Map<String, dynamic> json) {
     return Reviews(
-      name: json['name'],
-      star: json['star'],
+      id: json['_id'],
+      customid: json['customerID'],
+      salonID: json['salonID'],
       comment: json['comment'],
+      star: json['star'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+      v: json['__v'],
     );
   }
 }

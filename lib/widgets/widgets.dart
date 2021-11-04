@@ -5,7 +5,7 @@ InputDecoration textFieldInputDecoration(String hintText) {
       hintText: hintText,
       hintStyle: TextStyle(color: Colors.black54),
       focusedBorder:
-          UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+          UnderlineInputBorder(borderSide: BorderSide(color: Colors.blue)),
       enabledBorder:
           UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)));
 }

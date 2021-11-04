@@ -17,7 +17,7 @@ class _BookingHistoryListState extends State<BookingHistoryList> {
   Future<List<Booking>> fetchPreviousBookings() async {
     var token = await storage.read(key: 'token');
     var url = Uri.parse(
-        'https://apna-salon-api.herokuapp.com/api/salon/booking/complete');
+        'https://test-salon-api.herokuapp.com/api/salon/booking/complete');
     print(token);
     var response = await http.get(url, headers: {
       'token': token,
@@ -36,7 +36,7 @@ class _BookingHistoryListState extends State<BookingHistoryList> {
       //print(_completedOrders[1].timestamp);
       return _completedOrders;
     } else if (response.statusCode == 404) {
-      throw Exception('No previous completed order');
+      //throw Exception('No previous completed order');
     } else {
       throw Exception('Failed to load Orders');
     }
@@ -77,11 +77,13 @@ class _BookingHistoryListState extends State<BookingHistoryList> {
                 ? Container(
                     margin: EdgeInsets.all(10),
                     padding: EdgeInsets.all(15),
-                    child: Text(
-                      //"No current Orders.",
-                      " ${snapshot.error.toString().replaceAll("Exception: ", " ")}",
-                      style: TextStyle(
-                        fontSize: 20.0,
+                    child: Center(
+                      child: Text(
+                        //"No current Orders.",
+                        " ${snapshot.error.toString().replaceAll("Exception: ", " ")}",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
                       ),
                     ),
                   )
@@ -89,11 +91,13 @@ class _BookingHistoryListState extends State<BookingHistoryList> {
                     ? Container(
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(15),
-                        child: Text(
-                          "No current Completed bookings.",
-                          //" ${snapshot.error.toString().replaceAll("Exception: ", " ")}",
-                          style: TextStyle(
-                            fontSize: 20.0,
+                        child: Center(
+                          child: Text(
+                            "No current Completed bookings.",
+                            //" ${snapshot.error.toString().replaceAll("Exception: ", " ")}",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
                           ),
                         ),
                       )

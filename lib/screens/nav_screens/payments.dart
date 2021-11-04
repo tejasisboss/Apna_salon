@@ -1,3 +1,4 @@
+import 'package:apna_salon/screens/notifications.dart';
 import 'package:flutter/material.dart';
 
 class PaymentsScreen extends StatefulWidget {
@@ -16,10 +17,20 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
       appBar: AppBar(
         title: Text('Apna Salon'),
         actions: [
+          GestureDetector(
+            onTap: () {
+              print('notifications');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsList()));
+            },
+            child: Icon(
+              Icons.notifications,
+              size: 32,
+            ),
+          ),
           Container(
             padding: EdgeInsets.symmetric(
               horizontal: (size.width * 0.03),
-              vertical: (size.height * 0.01),
+              vertical: (size.height * 0.018),
             ),
             child: Text(
               '5',

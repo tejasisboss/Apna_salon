@@ -21,10 +21,10 @@ class _LoginState extends State<Login> {
 
   signin(String username, String password) async {
     print("i am here");
-    Map data = {'email': username, 'password': password};
+    Map data = {'phone': username, 'password': password};
     dynamic jsonData;
     var response = await http.post(
-        Uri.parse('https://apna-salon-api.herokuapp.com/api/login'),
+        Uri.parse('https://test-salon-api.herokuapp.com/api/salon/login'),
         body: data);
     print(response.body);
     print(response.statusCode);
@@ -34,6 +34,7 @@ class _LoginState extends State<Login> {
         _isLoading = false;
         if (response.body != null) {
           storage.write(key: 'token', value: response.body);
+          //getUserData();
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (BuildContext context) => NavScreen()),
               (Route<dynamic> route) => false);
@@ -51,6 +52,26 @@ class _LoginState extends State<Login> {
         _isLoading = false;
       });
       dialogBox(context, "An Error Occurred", "Enter the Correct Credentials");
+    }
+  }
+
+  Future getUserData() async {
+    var token = await storage.read(key: 'token');
+    var response = await http.get(
+        Uri.parse('https://test-salon-api.herokuapp.com/api/salon'),
+        headers: {
+          'token': token,
+        });
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      List detailsInJson = json.decode(response.body);
+      print(detailsInJson);
+      /* List<SalonDetails> salondata = [];
+      for (var s in detailsInJson) {
+        SalonDetails salonDetails = SalonDetails(s['name'], s['gender']);
+        salondata.add(salonDetails);
+      } */
     }
   }
 
@@ -85,7 +106,8 @@ class _LoginState extends State<Login> {
                         children: [
                           TextFormField(
                             controller: usernameController,
-                            decoration: textFieldInputDecoration('Username'),
+                            decoration: textFieldInputDecoration(
+                                'Email or Phone Number..'),
                           ),
                           SizedBox(height: (size.height * 0.04)),
                           TextFormField(

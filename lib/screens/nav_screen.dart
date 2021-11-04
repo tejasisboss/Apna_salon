@@ -3,7 +3,7 @@ import 'package:apna_salon/screens/nav_screens/bookings.dart';
 import 'package:apna_salon/screens/nav_screens/payments.dart';
 import 'package:flutter/material.dart';
 
-import 'nav_screens/home.dart';
+import 'nav_screens/home/home.dart';
 
 class NavScreen extends StatefulWidget {
   const NavScreen({Key key}) : super(key: key);

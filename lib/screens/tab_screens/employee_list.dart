@@ -1,5 +1,5 @@
 import 'package:apna_salon/models/employee.dart';
-import 'package:apna_salon/screens/employeeaddform.dart';
+import 'package:apna_salon/screens/addscreens/employeeaddform.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -19,43 +19,34 @@ class _EmployeeListState extends State<EmployeeList> {
   int code;
 
   Future<List<Employee>> fetchEmployeeList() async {
-    //Future<int> fetchEmployeeList() async {
     var token = await storage.read(key: 'token');
     var url =
-        Uri.parse('https://apna-salon-api.herokuapp.com/api/salon/employee');
+        Uri.parse('https://test-salon-api.herokuapp.com/api/salon/employee');
     var response = await http.get(url, headers: {
-      'token': token,
+      "token":
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmM0NzM5MWY4NzEyMDAxNjQ3MzUyOCIsIm5hbWUiOiJkdW1teSBzYWxvbiIsInBob25lIjoiOTk5OTk5OTk5OSIsImlhdCI6MTYzNTYwOTEwNiwiZXhwIjoxNjM1NjEwOTA2fQ.vUZTwiR6bKRE1NS8gXofHTorHE4BbJ_MWqhZNjkfzHw',
     });
     print(response.body);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      print('');
       List employeesInJson = json.decode(response.body);
       List _currentemployee = List<Employee>.from(
         employeesInJson.map(
           (x) => Employee.fromJson(x),
         ),
       );
-      setState(() {
-        code = response.statusCode;
-      });
       return _currentemployee;
     } else if (response.statusCode == 404) {
-      //throw Exception('No Employees');
-      setState(() {
-        code = response.statusCode;
-      });
+      throw Exception('No Employees');
     } else {
-      //throw Exception('Failed to load Orders');
-      setState(() {
-        code = response.statusCode;
-      });
+      throw Exception('Failed to load Employees');
     }
   }
 
   @override
   void initState() {
     super.initState();
+
     currentEmployeeList = fetchEmployeeList();
   }
 
@@ -90,11 +81,13 @@ class _EmployeeListState extends State<EmployeeList> {
                 ? Container(
                     margin: EdgeInsets.all(10),
                     padding: EdgeInsets.all(15),
-                    child: Text(
-                      //"No current Orders.",
-                      " ${snapshot.error.toString().replaceAll("Exception: ", " ")}",
-                      style: TextStyle(
-                        fontSize: 20.0,
+                    child: Center(
+                      child: Text(
+                        //"No current Orders.",
+                        " ${snapshot.error.toString().replaceAll("Exception: ", " ")}",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
                       ),
                     ),
                   )
@@ -118,11 +111,18 @@ class _EmployeeListState extends State<EmployeeList> {
           onPressed: () {
             print('yes');
             showModalBottomSheet(
+                isScrollControlled: true,
                 context: context,
                 builder: (context) {
-                  return Container(
-                    //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-                    child: EmployeeAddForm(),
+                  return Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      width: MediaQuery.of(context).size.width,
+                      //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+                      child: EmployeeAddForm(),
+                    ),
                   );
                 });
             // Add your onPressed code here!

@@ -1,5 +1,7 @@
 import 'package:apna_salon/main.dart';
 import 'package:apna_salon/screens/login.dart';
+import 'package:apna_salon/screens/notifications.dart';
+import 'package:apna_salon/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,27 +22,41 @@ class _AccountsState extends State<Accounts> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF990F02),
-          title: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.redAccent,
-                  //backgroundImage: _image,               //put your image here
-                ),
-                SizedBox(
-                  width: size.width * 0.02,
-                ),
-                Text(
-                  'HiPartner',
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white54,
-                  ),
-                ),
-              ],
+          actions: [
+            GestureDetector(
+              onTap: () {
+                print('notifications');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotificationsList()));
+              },
+              child: Icon(
+                Icons.notifications,
+                size: 32,
+              ),
             ),
+          ],
+          centerTitle: true,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.redAccent,
+                //backgroundImage: _image,               //put your image here
+              ),
+              SizedBox(
+                width: size.width * 0.02,
+              ),
+              Text(
+                'HiPartner',
+                style: TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white54,
+                ),
+              ),
+            ],
           ),
         ),
         body: Center(
@@ -129,7 +145,9 @@ class _AccountsState extends State<Accounts> {
                 height: size.height * 0.03,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showContactUs(context);
+                },
                 child: Container(
                   child: Row(
                     children: [

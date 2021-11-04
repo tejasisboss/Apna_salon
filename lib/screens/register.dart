@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:apna_salon/models/address.dart';
 import 'package:apna_salon/screens/after_registration.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:apna_salon/screens/login.dart';
@@ -18,25 +19,36 @@ class _RegisterState extends State<Register> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController phoneController = new TextEditingController();
   TextEditingController cityController = new TextEditingController();
+  TextEditingController descController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  TextEditingController openTimeController = new TextEditingController();
+  TextEditingController closeTimeController = new TextEditingController();
+  TextEditingController numberOfSlotsController = new TextEditingController();
 
   bool _isLoading = false;
   String dropdownValue;
   Address address;
+  TimeOfDay picked;
 
   signUp() async {
     print('i am in register');
     dynamic jsonData;
-    var url = Uri.parse('https://apna-salon-api.herokuapp.com/api/register');
+    var url =
+        Uri.parse('https://test-salon-api.herokuapp.com/api/salon/register');
     var response = await http.post(url, body: {
       "name": salonNameController.text,
       "ownername": ownerNameController.text,
       "email": emailController.text,
+      "description": descController.text,
       "phone": phoneController.text,
       "address": address.citygetter(),
       "password": passwordController.text,
       "gender": dropdownValue,
+      "opentime": openTimeController.text,
+      "closetime": closeTimeController.text,
     });
+    print('body- ${response.body}');
+    print(response.statusCode);
     if (response.statusCode == 200) {
       jsonData = json.decode(json.encode(response.body));
       setState(() {
@@ -75,7 +87,7 @@ class _RegisterState extends State<Register> {
                 style: TextStyle(
                   color: Color.fromRGBO(128, 0, 0, 1.0),
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 25,
                 ),
               ),
               SizedBox(height: (size.height * 0.02)),
@@ -133,6 +145,121 @@ class _RegisterState extends State<Register> {
                           child: Text(value),
                         );
                       }).toList(),
+                    ),
+                    Container(
+                      child: TextFormField(
+                        maxLines: 5,
+                        textCapitalization: TextCapitalization.words,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(200)
+                        ],
+                        maxLengthEnforced: true,
+                        maxLength: 200,
+                        controller: descController,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Add A Descrition',
+                          hintStyle: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: (size.height * 0.02)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Open Time: ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: Colors.white54,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: TextFormField(
+                                onTap: () async {
+                                  print('Start time');
+                                  picked = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.now());
+
+                                  if (picked != null) {
+                                    setState(() {
+                                      openTimeController.text =
+                                          '${picked.hour}:${picked.minute}';
+                                    });
+                                  }
+                                },
+                                controller: openTimeController,
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    hintText: 'e.g. 06:00',
+                                    hintStyle: TextStyle(color: Colors.black54),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white10)),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white10))),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Close Time: ',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                            Container(
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: Colors.white54,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: TextFormField(
+                                onTap: () async {
+                                  print('Close time');
+                                  picked = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.now());
+
+                                  if (picked != null) {
+                                    setState(() {
+                                      closeTimeController.text =
+                                          '${picked.hour}:${picked.minute}';
+                                    });
+                                  }
+                                },
+                                controller: closeTimeController,
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    hintText: 'e.g. 10:00',
+                                    hintStyle: TextStyle(color: Colors.black54),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white10)),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white10))),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(height: (size.height * 0.02)),
                     TextFormField(
@@ -226,6 +353,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
+              SizedBox(height: (size.height * 0.03)),
             ],
           ),
         ),
